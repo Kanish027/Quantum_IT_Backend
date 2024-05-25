@@ -28,7 +28,16 @@ app.use(express.urlencoded({ limit: "100mb", extended: true }));
 app.use(cookieParser());
 
 // Middleware for Cross-Origin Resource Sharing (CORS) configuration
-app.use(cors());
+app.use(
+  cors({
+    // Allow requests from the specified frontend origin
+    origin: [process.env.FRONTEND_URI],
+    // Allow specified HTTP methods
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    // Allow credentials to be included in requests
+    credentials: true,
+  })
+);
 
 // Route for user-related API endpoints
 app.use("/api/v1/user", userRouter);
